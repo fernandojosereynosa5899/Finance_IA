@@ -52,9 +52,9 @@ RUN echo "server {" > /etc/nginx/sites-available/default && \
 # 5. Script de inicializacion
 RUN echo '#!/bin/bash' > /app/start.sh && \
     echo 'sed -i "s/listen 8080 default_server;/listen ${PORT:-10000} default_server;/g" /etc/nginx/sites-available/default' >> /app/start.sh && \
-    echo 'java -Dserver.port=8081 -jar /app/Backend/target/financeia-backend-0.0.1-SNAPSHOT.jar &' >> /app/start.sh && \
+    echo 'java -Xmx200m -Xms100m -XX:MaxMetaspaceSize=100m -Dserver.port=8081 -jar /app/Backend/target/financeia-backend-0.0.1-SNAPSHOT.jar &' >> /app/start.sh && \
     echo 'cd /app/Frontend' >> /app/start.sh && \
-    echo 'HOST=127.0.0.1 PORT=4321 INTERNAL_API_URL="http://127.0.0.1:8081" node ./dist/server/entry.mjs &' >> /app/start.sh && \
+    echo 'HOST=127.0.0.1 PORT=4321 INTERNAL_API_URL="http://127.0.0.1:8081" node --max-old-space-size=100 ./dist/server/entry.mjs &' >> /app/start.sh && \
     echo 'nginx -g "daemon off;"' >> /app/start.sh && \
     chmod +x /app/start.sh
 
