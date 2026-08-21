@@ -1,0 +1,7 @@
+.git
+.idea
+node_modules
+Backend/target
+dist
+venv
+__pycache__

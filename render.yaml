@@ -1,0 +1,35 @@
+services:
+  - type: web
+    name: financeai-backend
+    env: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: PORT
+        value: 8080
+      - key: MYSQLUSER
+        sync: false
+      - key: MYSQL_ROOT_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+        generateValue: true
+
+  - type: web
+    name: financeai-frontend
+    env: node
+    rootDir: Frontend
+    buildCommand: npm install -g pnpm && pnpm install && pnpm build
+    startCommand: HOST=0.0.0.0 node ./dist/server/entry.mjs
+    envVars:
+      - key: NODE_VERSION
+        value: ~22.12.0
+      - key: PUBLIC_API_URL
+        fromService:
+          type: web
+          name: financeai-backend
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: AUTH_SECRET
+        sync: false
+        generateValue: true
+      - key: AUTH_TRUST_HOST
+        value: "true"
