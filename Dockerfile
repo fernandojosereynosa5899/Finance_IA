@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 # Configurar zona horaria y evitar interacciones de apt
 ENV DEBIAN_FRONTEND=noninteractive
