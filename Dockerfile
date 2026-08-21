@@ -35,19 +35,19 @@ RUN cd /app/Frontend && \
     PUBLIC_API_URL=" " pnpm build
 
 # 4. Configurar Nginx como Proxy Inverso
-RUN echo 'server { \' > /etc/nginx/sites-available/default && \
-    echo '    listen 8080 default_server; \' >> /etc/nginx/sites-available/default && \
-    echo '    location /api/ { \' >> /etc/nginx/sites-available/default && \
-    echo '        proxy_pass http://127.0.0.1:8081; \' >> /etc/nginx/sites-available/default && \
-    echo '        proxy_set_header Host $host; \' >> /etc/nginx/sites-available/default && \
-    echo '        proxy_set_header X-Real-IP $remote_addr; \' >> /etc/nginx/sites-available/default && \
-    echo '    } \' >> /etc/nginx/sites-available/default && \
-    echo '    location / { \' >> /etc/nginx/sites-available/default && \
-    echo '        proxy_pass http://127.0.0.1:4321; \' >> /etc/nginx/sites-available/default && \
-    echo '        proxy_set_header Host $host; \' >> /etc/nginx/sites-available/default && \
-    echo '        proxy_set_header X-Real-IP $remote_addr; \' >> /etc/nginx/sites-available/default && \
-    echo '    } \' >> /etc/nginx/sites-available/default && \
-    echo '}' >> /etc/nginx/sites-available/default
+RUN echo "server {" > /etc/nginx/sites-available/default && \
+    echo "    listen 8080 default_server;" >> /etc/nginx/sites-available/default && \
+    echo "    location /api/ {" >> /etc/nginx/sites-available/default && \
+    echo "        proxy_pass http://127.0.0.1:8081;" >> /etc/nginx/sites-available/default && \
+    echo "        proxy_set_header Host \$host;" >> /etc/nginx/sites-available/default && \
+    echo "        proxy_set_header X-Real-IP \$remote_addr;" >> /etc/nginx/sites-available/default && \
+    echo "    }" >> /etc/nginx/sites-available/default && \
+    echo "    location / {" >> /etc/nginx/sites-available/default && \
+    echo "        proxy_pass http://127.0.0.1:4321;" >> /etc/nginx/sites-available/default && \
+    echo "        proxy_set_header Host \$host;" >> /etc/nginx/sites-available/default && \
+    echo "        proxy_set_header X-Real-IP \$remote_addr;" >> /etc/nginx/sites-available/default && \
+    echo "    }" >> /etc/nginx/sites-available/default && \
+    echo "}" >> /etc/nginx/sites-available/default
 
 # 5. Script de inicializacion
 RUN echo '#!/bin/bash' > /app/start.sh && \
